@@ -115,8 +115,8 @@
             maxX = MAX(maxX, rect.origin.x + rect.size.width);
             maxY = MAX(maxY, rect.origin.y + rect.size.height);
         }
-        maxX = MIN(maxX, self.maximumContentWidth);
-        maxY = MIN(maxY, self.maximumContentHeight);
+        maxX = MAX(MIN(maxX, self.maximumContentWidth), self.contentSize.width);
+        maxY = MAX(MIN(maxY, self.maximumContentHeight), self.contentSize.height);
         self.scrollView.contentSize = CGSizeMake(maxX, maxY);
         
         [self loadCellsInRect:self.visibleRect];
@@ -236,6 +236,10 @@
     [self.scrollView scrollRectToVisible:cell.frame animated:animated];
 }
 
+- (void)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated {
+    [self.scrollView scrollRectToVisible:rect animated:animated];
+}
+
 - (CGRect)visibleRect {
     CGRect visibleRect;
     visibleRect.origin = self.scrollView.contentOffset;
@@ -292,6 +296,14 @@
 
 - (CGPoint)contentOffset {
     return self.scrollView.contentOffset;
+}
+
+- (void)setContentSize:(CGSize)contentSize {
+    self.scrollView.contentSize = contentSize;
+}
+
+- (CGSize)contentSize {
+    return self.scrollView.contentSize;
 }
 
 ////////////////////////////////////////////////////////////////////////

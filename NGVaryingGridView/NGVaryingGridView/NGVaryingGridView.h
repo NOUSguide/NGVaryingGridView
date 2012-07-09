@@ -52,6 +52,7 @@ typedef enum {
 @property (nonatomic) BOOL showsVerticalScrollIndicator;
 @property (nonatomic) UIEdgeInsets contentInset;
 @property (nonatomic) CGPoint contentOffset;
+@property (nonatomic) CGSize contentSize;
 
 /**
  Reloads the rows and sections of the receiver.
@@ -71,6 +72,13 @@ typedef enum {
  @param animated `YES` if you want to animate the change in position, `NO` if it should be immediate.
  */
 - (void)scrollToGridCell:(UIView *)cell animated:(BOOL)animated;
+
+/**
+ Scroll the GridView to a specifc Rect 
+ @param rect the CGRect where the GridView should scroll to
+ @param animated `YES` if you want to animate the change in position, `NO` if it should be immediate.
+ */
+- (void)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated;
 
 /**
  Adds an Overlay to the GridView. The `UIView` will not be inside the scrollable Area, but above it
