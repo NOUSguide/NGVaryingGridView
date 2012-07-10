@@ -8,7 +8,9 @@
 
 #import "NGVaryingGridView.h"
 
-@interface NGVaryingGridView () <UIScrollViewDelegate>
+@interface NGVaryingGridView () <UIScrollViewDelegate> {
+    BOOL _topStickyViewOnHierarchyTop;
+}
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSArray *gridRects;
@@ -144,12 +146,14 @@
             [self.stickyViewForTopPosition removeFromSuperview];
             self.stickyViewForTopPositionPadding = view.frame.origin.y;
             self.stickyViewForTopPosition = view;
+            _topStickyViewOnHierarchyTop = YES;
             break;
             
         case NGVaryingGridViewLockPositionLeft:
             [self.stickyViewForLeftPosition removeFromSuperview];
             self.stickyViewForLeftPositionPadding = view.frame.origin.x;
             self.stickyViewForLeftPosition = view;
+            _topStickyViewOnHierarchyTop = NO;
             break;
             
         default:
@@ -157,6 +161,7 @@
     }
     
     [self.scrollView addSubview:view];
+    [self updateStickyViewsPosition];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -197,6 +202,10 @@
 }
 
 - (UIView *)dequeueReusableCell {
+    return [self dequeueReusableCellWithFrame:CGRectZero];
+}
+
+- (UIView *)dequeueReusableCellWithFrame:(CGRect)frame {
     UIView *reusableCell = [self.reuseableCells anyObject];
     if (reusableCell) {
         if ([self.gridViewDelegate respondsToSelector:@selector(gridView:willPrepareCellForReuse:)]) {
@@ -204,6 +213,7 @@
         }
         [self.reuseableCells removeObject:reusableCell];
     }
+    reusableCell.frame = frame;
     return reusableCell;
 }
 
@@ -211,8 +221,13 @@
     self.stickyViewForTopPosition.frame = CGRectMake(self.stickyViewForTopPosition.frame.origin.x, self.scrollView.contentOffset.y + self.stickyViewForTopPositionPadding, self.stickyViewForTopPosition.frame.size.width, self.stickyViewForTopPosition.frame.size.height);
     self.stickyViewForLeftPosition.frame = CGRectMake(self.scrollView.contentOffset.x + self.stickyViewForLeftPositionPadding, self.stickyViewForLeftPosition.frame.origin.y, self.stickyViewForLeftPosition.frame.size.width, self.stickyViewForLeftPosition.frame.size.height);
     
-    [self.scrollView bringSubviewToFront:self.stickyViewForTopPosition];
-    [self.scrollView bringSubviewToFront:self.stickyViewForLeftPosition];
+    if (_topStickyViewOnHierarchyTop) {
+        [self.scrollView bringSubviewToFront:self.stickyViewForLeftPosition];
+        [self.scrollView bringSubviewToFront:self.stickyViewForTopPosition];
+    } else {
+        [self.scrollView bringSubviewToFront:self.stickyViewForTopPosition];
+        [self.scrollView bringSubviewToFront:self.stickyViewForLeftPosition];
+    }
 }
 
 - (void)bringScrollingIndicatorsToFront {

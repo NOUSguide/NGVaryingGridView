@@ -90,7 +90,14 @@ typedef enum {
  Returns a reusable Cell
  @return the GridCell for reuse or `nil` if no reusable Cell is available
  */
-- (UIView *)dequeueReusableCell;
+- (UIView *)dequeueReusableCell __attribute__((deprecated));
+
+/**
+ Returns a reusable Cell and sets the frame
+ @param frame the frame of the Cell
+ @return the GridCell for reuse or `nil` if no reusable Cell is available
+ */
+- (UIView *)dequeueReusableCellWithFrame:(CGRect)frame;
 
 /**
  Sets a sticky View to the scrollable Area at a specific Lockposition
