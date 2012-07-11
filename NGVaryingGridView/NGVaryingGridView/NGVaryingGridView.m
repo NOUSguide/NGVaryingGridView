@@ -183,6 +183,7 @@
             UIView *gridViewCell = [self.gridCells objectForKey:rectValue];
             if (gridViewCell == nil) {
                 gridViewCell = [self.gridViewDelegate gridView:self viewForCellWithRect:rectOfValue index:index];
+                gridViewCell.userInteractionEnabled = YES;
                 [gridViewCell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)]];
                 [self.gridCells setObject:gridViewCell forKey:rectValue];
             }

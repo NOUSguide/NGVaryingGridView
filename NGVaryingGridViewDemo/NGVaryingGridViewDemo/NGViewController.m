@@ -167,8 +167,7 @@
 }
 
 - (UIView *)gridView:(NGVaryingGridView *)gridView viewForCellWithRect:(CGRect)rect index:(NSUInteger)index {
-    NGTimeTableCell *cell = (NGTimeTableCell *) ([gridView dequeueReusableCell] ?: [[NGTimeTableCell alloc] initWithFrame:rect]);
-    cell.frame = rect;
+    NGTimeTableCell *cell = (NGTimeTableCell *) ([gridView dequeueReusableCellWithFrame:rect] ?: [[NGTimeTableCell alloc] initWithFrame:rect]);
     
     NSDictionary *event = [self.events objectAtIndex:index];
     cell.text = [event objectForKey:@"title"];
@@ -176,7 +175,7 @@
 }
 
 - (void)gridView:(NGVaryingGridView *)gridView didSelectCell:(UIView *)cell index:(NSUInteger)index {
-    
+    NSLog(@"You selected a cell!");
 }
 
 - (void)gridView:(NGVaryingGridView *)gridView willPrepareCellForReuse:(UIView *)cell {
