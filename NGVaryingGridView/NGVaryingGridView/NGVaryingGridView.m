@@ -197,6 +197,7 @@
     // Move unused Cells to reusableCells
     NSMutableDictionary *unusedCells = [NSMutableDictionary dictionaryWithDictionary:self.gridCells];
     [unusedCells removeObjectsForKeys:usedCells.allKeys];
+    [unusedCells.allValues makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     [self.gridCells removeObjectsForKeys:unusedCells.allKeys];
     [self.reuseableCells addObjectsFromArray:unusedCells.allValues];
