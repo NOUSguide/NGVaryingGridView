@@ -106,4 +106,11 @@ typedef enum {
  */
 - (void)setStickyView:(UIView *)view lockPosition:(NGVaryingGridViewLockPosition)lockPosition;
 
+/**
+ Sets the offset from the content view’s origin that corresponds to the receiver’s origin.
+ @param A point (expressed in points) that is offset from the content view’s origin.
+ @param YES to animate the transition at a constant velocity to the new offset, NO to make the transition immediate.
+ */
+- (void)setContentOffset:(CGPoint)contentOffset animated:(BOOL)animated;
+
 @end

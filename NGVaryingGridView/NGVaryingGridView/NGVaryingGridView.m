@@ -311,6 +311,10 @@
     self.scrollView.contentOffset = contentOffset;
 }
 
+- (void)setContentOffset:(CGPoint)contentOffset animated:(BOOL)animated {
+    [self.scrollView setContentOffset:contentOffset animated:animated];
+}
+
 - (CGPoint)contentOffset {
     return self.scrollView.contentOffset;
 }
